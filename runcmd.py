@@ -37,6 +37,7 @@ def runcmd_list(
             if parallel:
                 line = f"[{os.getpid()}]" + line
             logging.info(line)
+
     def stream_process(process, command_id):
         go = process.poll() is None
         for line in process.stdout:
@@ -48,17 +49,25 @@ def runcmd_list(
                     logging.info(("  " + l))
             runcmd_list_stdouts[command_id].append(l)
         return go
+
     command_id = str(uuid.uuid4())
     runcmd_list_stdouts[command_id] = []
     if env:
         process = subprocess.Popen(
-            command, shell=False, stdout=subprocess.PIPE, 
-            stderr=subprocess.STDOUT, cwd=cwd, env=env,
+            command,
+            shell=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            cwd=cwd,
+            env=env,
         )
     else:
         process = subprocess.Popen(
-            command, shell=False, stdout=subprocess.PIPE, 
-            stderr=subprocess.STDOUT, cwd=cwd,
+            command,
+            shell=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            cwd=cwd,
         )
     while stream_process(process, command_id):
         time.sleep(0.1)
