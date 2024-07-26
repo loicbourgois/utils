@@ -1,0 +1,9 @@
+services:
+  document_database:
+    build:
+      context: $UTILS
+      dockerfile: $UTILS/document_database/Dockerfile
+    volumes:
+      - $UTILS:/root/utils:ro
+      - $database:/database.json:ro
+      - $destination:/destination:rw
