@@ -1,0 +1,8 @@
+services:
+  document_database:
+    build:
+      context: $UTILS
+      dockerfile: $UTILS/format_lint/Dockerfile
+    volumes:
+      - $target:/target:ro
+      - $HOME/gitlab.com/downtowhat/downtowhat/utils/format_lint:/root/utils/format_lint:ro
