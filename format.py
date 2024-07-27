@@ -15,6 +15,6 @@ def jsonify(data):
     # &gt; for > and &lt; for <
     response.set_data(data)
     duration_bleach = time.time() - start
-    response.headers['duration_jsonify'] = duration_jsonify
-    response.headers['duration_bleach'] = duration_bleach
+    response.headers["duration_jsonify"] = duration_jsonify
+    response.headers["duration_bleach"] = duration_bleach
     return response

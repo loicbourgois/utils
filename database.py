@@ -83,10 +83,12 @@ def run_query(engine=None, query=None, args=None):
 
 @async_wrap
 def runcmd_list_async(command):
-    return "\n".join(runcmd_list(
-        command, 
-        quiet = True,
-    ))
+    return "\n".join(
+        runcmd_list(
+            command,
+            quiet=True,
+        )
+    )
 
 
 def description(database_url):
@@ -97,17 +99,19 @@ def description(database_url):
             "-c",
             f"\d",
         ],
-        quiet = True,
+        quiet=True,
     )
-    commands = [] 
+    commands = []
     for line in table_list[3 : len(table_list) - 2]:
         table_name = line.split("|")[1].strip()
-        commands.append([
-            "psql",
-            database_url,
-            "-c",
-            f"\d {table_name}",
-        ])
+        commands.append(
+            [
+                "psql",
+                database_url,
+                "-c",
+                f"\d {table_name}",
+            ]
+        )
     descriptions = parallel(commands, runcmd_list_async)
     description_2 = runcmd_list(
         [
@@ -125,9 +129,11 @@ def description(database_url):
             ;
         """,
         ],
-        quiet = True,
+        quiet=True,
     )
-    return "Tables:\n" + "\n".join(descriptions) + "\nEnums:\n" + "\n".join(description_2)
+    return (
+        "Tables:\n" + "\n".join(descriptions) + "\nEnums:\n" + "\n".join(description_2)
+    )
 
 
 def mermaid_simple(x):
@@ -149,11 +155,12 @@ def mermaid_simple(x):
             "reference_table": match[3],
             "reference_column": match[4],
         }
-        connections[f"{ref['table']} -.- {ref['reference_table']}"] = f"{ref['table']} -.- {ref['reference_table']}"
+        connections[f"{ref['table']} -.- {ref['reference_table']}"] = (
+            f"{ref['table']} -.- {ref['reference_table']}"
+        )
     for c in connections:
         lines.append(c)
     return "\n".join(lines)
-
 
 
 def mermaid(x):
@@ -167,8 +174,8 @@ def mermaid(x):
                     lines.append("end")
                 table = match
                 lines.append(f"subgraph {table}")
-        
-        pattern = r'(.*)\|(.*)\|(.*)\|(.*)\|(.*)'
+
+        pattern = r"(.*)\|(.*)\|(.*)\|(.*)\|(.*)"
         for match in re.findall(pattern, l):
             if match[0].strip() != "Column":
                 # logging.info(match)
@@ -183,5 +190,7 @@ def mermaid(x):
             "reference_table": match[3],
             "reference_column": match[4],
         }
-        lines.append(f"{ref['table']}.{ref['foreign_key']} -.- {ref['reference_table']}.{ref['reference_column']}")
+        lines.append(
+            f"{ref['table']}.{ref['foreign_key']} -.- {ref['reference_table']}.{ref['reference_column']}"
+        )
     return "\n".join(lines)

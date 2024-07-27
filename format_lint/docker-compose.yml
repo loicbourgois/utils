@@ -4,5 +4,5 @@ services:
       context: $UTILS
       dockerfile: $UTILS/format_lint/Dockerfile
     volumes:
-      - $target:/target:ro
+      - $target:/target:rw
       - $HOME/gitlab.com/downtowhat/downtowhat/utils/format_lint:/root/utils/format_lint:ro

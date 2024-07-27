@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 def write(path=None, content=None):
     assert path is not None
     assert content is not None
