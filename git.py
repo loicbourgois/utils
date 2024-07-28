@@ -12,7 +12,7 @@ import numpy as np
 
 def list_repos(path):
     csvs = {}
-    for path_1, _subdirs, files in os.walk(path):
+    for _path_1, _subdirs, files in os.walk(path):
         for name in files:
             x = os.path.join(path, name)
             if x.endswith(".csv"):
@@ -82,7 +82,7 @@ def git_status_async(cwd):
 
 
 if __name__ == "__main__":
-    path = f"{os.environ['HOME']}/github.com/"
+    # path = f"{os.environ['HOME']}/github.com/"
     platform_paths = [
         f"{os.environ['HOME']}/github.com",
         f"{os.environ['HOME']}/gitlab.com",

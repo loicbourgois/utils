@@ -1,6 +1,2 @@
-import logging
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(message)s",
-)
+from . import database
+from .log import logging

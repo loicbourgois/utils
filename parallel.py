@@ -2,7 +2,7 @@ import asyncio
 import functools
 import time
 from datetime import timedelta
-from . import logging
+from .log import logging
 from functools import wraps, partial
 
 
@@ -70,5 +70,7 @@ async def parallel_async(
 
 def parallel(data, function, **kwargs):
     if kwargs.get("limit") is not None:
-        return asyncio.run(parallel_async(data[:limit], function, **kwargs))
+        return asyncio.run(
+            parallel_async(data[: kwargs.get("limit")], function, **kwargs)
+        )
     return asyncio.run(parallel_async(data, function, **kwargs))

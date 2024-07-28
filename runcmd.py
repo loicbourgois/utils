@@ -2,7 +2,7 @@ import uuid
 import subprocess
 import os
 import time
-from . import logging
+from .log import logging
 
 
 def short_path(x):

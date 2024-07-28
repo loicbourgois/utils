@@ -1,8 +1,7 @@
 import sqlalchemy
 import pandas
 import time
-from . import logging
-import os
+from .log import logging
 from .parallel import parallel
 from .parallel import async_wrap
 from .runcmd import runcmd_list
@@ -71,6 +70,7 @@ def query_to_df(engine=None, query=None, args=None, return_rows=True):
             return pandas.DataFrame(data, columns=head)
         else:
             transaction.commit()
+            return None
 
 
 def query_to_dicts(*args, **kwargs):
@@ -97,7 +97,7 @@ def description(database_url):
             "psql",
             database_url,
             "-c",
-            f"\d",
+            r"\d",
         ],
         quiet=True,
     )
