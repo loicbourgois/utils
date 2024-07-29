@@ -104,12 +104,13 @@ def description(database_url):
     commands = []
     for line in table_list[3 : len(table_list) - 2]:
         table_name = line.split("|")[1].strip()
+        _d = r"\d"
         commands.append(
             [
                 "psql",
                 database_url,
                 "-c",
-                f"\d {table_name}",
+                f"{_d} {table_name}",
             ]
         )
     descriptions = parallel(commands, runcmd_list_async)
