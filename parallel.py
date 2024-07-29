@@ -58,5 +58,7 @@ async def parallel_async(
 
 def parallel(data, function, **kwargs):
     if kwargs.get("limit") is not None:
-        return asyncio.run(parallel_async(data[:limit], function, **kwargs))
+        return asyncio.run(
+            parallel_async(data[: kwargs.get("limit")], function, **kwargs)
+        )
     return asyncio.run(parallel_async(data, function, **kwargs))

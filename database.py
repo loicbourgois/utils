@@ -2,7 +2,6 @@ import sqlalchemy
 import pandas
 import time
 from . import logging
-import os
 
 
 def new_database_engine(
@@ -56,6 +55,7 @@ def query_to_df(engine=None, query=None, args=None, return_rows=True):
             return pandas.DataFrame(data, columns=head)
         else:
             transaction.commit()
+            return None
 
 
 def query_to_dicts(*args, **kwargs):
