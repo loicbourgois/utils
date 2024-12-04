@@ -2,7 +2,19 @@ import asyncio
 import functools
 import time
 from datetime import timedelta
-from . import logging
+from .log import logging
+from functools import wraps, partial
+
+
+def async_wrap(func):
+    @wraps(func)
+    async def run(*args, loop=None, executor=None, **kwargs):
+        if loop is None:
+            loop = asyncio.get_event_loop()
+        pfunc = partial(func, *args, **kwargs)
+        return await loop.run_in_executor(executor, pfunc)
+
+    return run
 
 
 async def parallel_async(
@@ -58,5 +70,7 @@ async def parallel_async(
 
 def parallel(data, function, **kwargs):
     if kwargs.get("limit") is not None:
-        return asyncio.run(parallel_async(data[:limit], function, **kwargs))
+        return asyncio.run(
+            parallel_async(data[: kwargs.get("limit")], function, **kwargs)
+        )
     return asyncio.run(parallel_async(data, function, **kwargs))
